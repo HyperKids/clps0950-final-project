@@ -7,8 +7,7 @@ from pygame.locals import *
 
 from Player import *
 
-# global variables
-width, height = 500, 890 # 2/3rds of iPhone 6 dimensions
+from global_vars import *
 
 ## Initialization
 
@@ -18,8 +17,8 @@ screen = pygame.display.set_mode((width, height))
 # Player tutorial used:
 # https://opensource.com/article/17/12/game-python-add-a-player
 player = Player()
-player.rect.x = height / 2
-player.rect.y = width / 2 * 3 / 5
+player.rect.x = (width / 2 - player.rect.width / 2) * 3 / 5
+player.rect.y = height / 2 - player.rect.height / 2
 player_list = pygame.sprite.Group()
 player_list.add(player)
  
@@ -44,15 +43,17 @@ def update(dt):
         pygame.quit()
         sys.exit()
       if event.key == pygame.K_UP:
-        player.vy = 10
+        player.flap()
         pass
+    
+  # Update player.
+  player.update(dt)
  
 def draw(screen):
   """
   Draw things to the window. Called once per frame.
   """
-  screen.fill((0, 0, 0)) # Fill the screen with black.
-  #pygame.draw.circle(screen, (255, 255, 255), (width / 2 * 3 / 5 , height / 2), 12) # Draw a white circle just to the left of center.
+  screen.fill((135, 206, 235)) # Fill the screen with blue.
   player_list.draw(screen)
   
   # Redraw screen here.
