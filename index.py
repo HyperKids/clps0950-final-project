@@ -5,8 +5,23 @@ import sys
 import pygame
 from pygame.locals import *
 
+from Player import *
+
 # global variables
 width, height = 500, 890 # 2/3rds of iPhone 6 dimensions
+
+## Initialization
+
+# Set up the window.
+screen = pygame.display.set_mode((width, height))
+
+# Player tutorial used:
+# https://opensource.com/article/17/12/game-python-add-a-player
+player = Player()
+player.rect.x = height / 2
+player.rect.y = width / 2 * 3 / 5
+player_list = pygame.sprite.Group()
+player_list.add(player)
  
 def update(dt):
   """
@@ -24,13 +39,21 @@ def update(dt):
     if event.type == QUIT:
       pygame.quit()
       sys.exit()
+    if event.type == pygame.KEYDOWN:
+      if event.key == pygame.K_ESCAPE:
+        pygame.quit()
+        sys.exit()
+      if event.key == pygame.K_UP:
+        player.vy = 10
+        pass
  
 def draw(screen):
   """
   Draw things to the window. Called once per frame.
   """
   screen.fill((0, 0, 0)) # Fill the screen with black.
-  pygame.draw.circle(screen, (255, 255, 255), (width / 2 * 3 / 5 , height / 2), 10) # Draw a white circle just to the left of center.
+  #pygame.draw.circle(screen, (255, 255, 255), (width / 2 * 3 / 5 , height / 2), 12) # Draw a white circle just to the left of center.
+  player_list.draw(screen)
   
   # Redraw screen here.
   
@@ -43,13 +66,6 @@ def runPyGame():
   # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
   fps = 60.0
   fpsClock = pygame.time.Clock()
-  
-  # Set up the window.
-  screen = pygame.display.set_mode((width, height))
-  
-  # screen is the surface representing the window.
-  # PyGame surfaces can be thought of as screen sections that you can draw onto.
-  # You can also draw surfaces onto other surfaces, rotate surfaces, and transform surfaces.
   
   # Main game loop.
   dt = 1/fps # dt is the time since last frame.
