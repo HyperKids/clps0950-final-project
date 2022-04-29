@@ -1,4 +1,5 @@
 import os
+import math
 
 import pygame
 
@@ -8,15 +9,16 @@ class Player(pygame.sprite.Sprite):
   def __init__(self):
     pygame.sprite.Sprite.__init__(self)
     self.images = []
+    for i in range(1, 4):
+      img = pygame.image.load(os.path.join('images', 'yellowbird'+str(i)+'.png')).convert_alpha()
+      img = pygame.transform.scale(img, (51, 36))
+      img = pygame.transform.rotate(img, 0)
+      self.images.append(img)
+      self.image = self.images[0]
+      self.rect = self.image.get_rect()
+      self.image_index = 0
+      self.frame_count = 0
 
-    img = pygame.image.load(os.path.join('images', 'yellowbird-midflap.png')).convert_alpha()
-
-    img = pygame.transform.scale(img, (51, 36))
-    img = pygame.transform.rotate(img, 0)
-
-    self.images.append(img)
-    self.image = self.images[0]
-    self.rect = self.image.get_rect()
 
     # velocity y
     self.vy = 0
@@ -27,6 +29,8 @@ class Player(pygame.sprite.Sprite):
     # time since last flap in ms, to calculate angle
     self.time_since_flap = 0 # in ms
   def update(self, dt):
+    self.frame_count += 1
+    self.image_index = math.floor(self.frame_count / 4) % 3
     # update time since last flap in ms
     self.time_since_flap += dt
     # update velocity
@@ -46,13 +50,13 @@ class Player(pygame.sprite.Sprite):
     # update bird angle based on time since flap
     if self.time_since_flap < 625:
       # set angle fixed to 20 degrees up
-      self.image = pygame.transform.rotate(self.images[0], 20)
+      self.image = pygame.transform.rotate(self.images[self.image_index], 20)
     elif self.time_since_flap < 925:
       # set angle proportional to time since last flap
-      self.image = pygame.transform.rotate(self.images[0], 20 + (self.time_since_flap - 625) / 300 * -110)
+      self.image = pygame.transform.rotate(self.images[self.image_index], 20 + (self.time_since_flap - 625) / 300 * -110)
     else:
       # set angle fixed to 90 degrees down
-      self.image = pygame.transform.rotate(self.images[0], -90)
+      self.image = pygame.transform.rotate(self.images[self.image_index], -90)
 
   def flap(self):
     self.vy = -12
