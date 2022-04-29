@@ -46,6 +46,7 @@ def draw(screen):
   Draw things to the window. Called once per frame.
   """
   screen.blit(bg, (0, 0)) # Fill the screen with background.
+  screen.blit(game.base, (0, height-84))
   game.player_list.draw(screen)
   
   # Redraw screen here.

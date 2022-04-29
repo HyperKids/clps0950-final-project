@@ -12,6 +12,9 @@ class Game():
     self.player.rect.y = height / 2 - self.player.rect.height / 2
     self.player_list = pygame.sprite.Group()
     self.player_list.add(self.player)
+    self.speed = 12
+    self.base = pygame.image.load(os.path.join('images','base.png')).convert()
+    self.base = pygame.transform.scale(self.base, (504, 168))
   def update(self, dt):
     for pipe in self.pipes:
       pipe.update(dt)
