@@ -15,6 +15,7 @@ class Game():
     self.speed = 12
     self.base = pygame.image.load(os.path.join('images','base.png')).convert()
     self.base = pygame.transform.scale(self.base, (504, 168))
+    self.distance = 0
   def update(self, dt):
     for pipe in self.pipes:
       pipe.update(dt)
@@ -27,4 +28,5 @@ class Game():
         self.pipes = []
         self.player.rect.x = (width / 2 - self.player.rect.width / 2) * 3 / 5
         self.player.rect.y = height / 2 - self.player.rect.height / 2
+    self.distance += dt
     self.player.update(dt)
