@@ -9,9 +9,9 @@ class Player(pygame.sprite.Sprite):
     pygame.sprite.Sprite.__init__(self)
     self.images = []
 
-    img = pygame.image.load(os.path.join('images', 'flappy-bird.png')).convert_alpha()
+    img = pygame.image.load(os.path.join('images', 'yellowbird-midflap.png')).convert_alpha()
 
-    img = pygame.transform.scale(img, (65, 50))
+    img = pygame.transform.scale(img, (51, 36))
     img = pygame.transform.rotate(img, 0)
 
     self.images.append(img)
