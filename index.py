@@ -5,23 +5,15 @@ import sys
 import pygame
 from pygame.locals import *
 
-from Player import *
+from Game import *
 
 from global_vars import *
 
 ## Initialization
+# Screen pulled from global_vars.py
 
-# Set up the window.
-screen = pygame.display.set_mode((width, height))
+game = Game()
 
-# Player tutorial used:
-# https://opensource.com/article/17/12/game-python-add-a-player
-player = Player()
-player.rect.x = (width / 2 - player.rect.width / 2) * 3 / 5
-player.rect.y = height / 2 - player.rect.height / 2
-player_list = pygame.sprite.Group()
-player_list.add(player)
- 
 def update(dt):
   """
   Update game. Called once per frame.
@@ -43,18 +35,18 @@ def update(dt):
         pygame.quit()
         sys.exit()
       if event.key == pygame.K_UP:
-        player.flap()
+        game.player.flap()
         pass
-    
-  # Update player.
-  player.update(dt)
+
+  # Update level
+  game.update(dt)
  
 def draw(screen):
   """
   Draw things to the window. Called once per frame.
   """
   screen.fill((135, 206, 235)) # Fill the screen with blue.
-  player_list.draw(screen)
+  game.player_list.draw(screen)
   
   # Redraw screen here.
   
@@ -63,6 +55,8 @@ def draw(screen):
  
 def runPyGame():
   pygame.init()
+
+  pygame.display.set_caption('Flappy Bird')
   
   # Set up the clock. This will tick every frame and thus maintain a relatively constant framerate. Hopefully.
   fps = 60.0
