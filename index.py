@@ -47,7 +47,6 @@ def draw(screen):
   Draw things to the window. Called once per frame.
   """
   screen.blit(bg, (0, 0)) # Fill the screen with background.
-  screen.blit(game.base, (-((game.distance / 10) % 36), height-84))
   first_pipe = createPipe()
   second_pipe = createPipe()
   mytempheight = 100
@@ -76,7 +75,9 @@ def draw(screen):
 
   game.player_list.draw(screen)
 
-  
+  # render ground last so it covers other items visually
+  screen.blit(game.base, (-((game.distance / 10) % 36), height-84))
+
   # Redraw screen here.
   
   # Flip the display so that the things we drew actually show up.
