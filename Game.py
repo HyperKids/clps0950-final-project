@@ -1,10 +1,11 @@
 from global_vars import *
 from Player import *
 from Pipe import *
+from Score import *
 
 class Game():
   def __init__(self):
-    self.score = 0
+    self.score = Score()
     self.pipes = []
     # Player tutorial used:
     # https://opensource.com/article/17/12/game-python-add-a-player
