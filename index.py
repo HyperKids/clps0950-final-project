@@ -49,8 +49,8 @@ def draw(screen):
   screen.blit(bg, (0, 0)) # Fill the screen with background.
 
   screen.blit(game.base, (-((game.distance / 10) % 36), height-84))
-  for pipe in game.pipes:
-    pipe.draw(screen)
+  #for pipe in game.pipes:
+    #pipe.draw(screen)
 
 
   #screen.blit(top_pipe, (width/2, height/2 + 20))
@@ -60,6 +60,8 @@ def draw(screen):
   #  screen.blit(game_images['pipe'][0], (upperPipe['x'], upperPipe['y']))
   #  screen.blit(game_images['pipe'][1], (lowerPipe['x'], lowerPipe['y']))
 
+  for pipe in game.pipes:
+    pipe.pipe_list.draw(screen)
   game.player_list.draw(screen)
 
   # render ground last so it covers other items visually

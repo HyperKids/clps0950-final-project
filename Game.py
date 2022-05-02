@@ -28,5 +28,5 @@ class Game():
     # only run function once
     if ~self.started:
       self.distance = 0
-      self.pipes.append(Pipe(width * 2))
-      self.pipes.append(Pipe(width * 2.75))
+      self.pipes.append(PipeSet(width * 2))
+      self.pipes.append(PipeSet(width * 2.75))

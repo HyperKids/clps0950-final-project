@@ -29,57 +29,59 @@ def createPipe():
   return pipe
 
 
-class Pipe():
-  def __init__(self, x):
+class TopPipe(pygame.sprite.Sprite):
+  def __init__(self, x, height):
+    pygame.sprite.Sprite.__init__(self)
     self.x = x
     #self.y = random.randint(0, height - gap_size)
     #self.width = pipe_width
-    self.top_pipe = pygame.image.load(os.path.join('images', 'pipe-green.png')).convert_alpha()
-    self.top_pipe = pygame.transform.flip(self.top_pipe, False, True)
-    self.top_pipe = pygame.transform.scale(self.top_pipe, (78, 420))
-    self.bot_pipe = pygame.image.load(os.path.join('images', 'pipe-green.png')).convert_alpha()
-    self.bot_pipe = pygame.transform.scale(self.bot_pipe, (78, 420))
-    self.height = random.randrange(32, 400)
+    self.image = pygame.image.load(os.path.join('images', 'pipe-green.png')).convert_alpha()
+    self.image = pygame.transform.flip(self.image, False, True)
+    self.image = pygame.transform.scale(self.image, (78, 420))
     self.gap = 120
-    self.top = self.height - self.top_pipe.get_height()
-    self.bottom = self.height + self.gap
-    self.speed = game_speed
-    self.rect_top = self.top_pipe.get_rect()
-    self.rect_top.x = self.x
-    self.rect_top.y = self.top
+    self.top = height - self.image.get_height()
+    self.rect = self.image.get_rect()
+    self.rect.x = self.x
+    self.rect.y = self.top
   def update(self, dt):
     self.x -= dt / 10
-    self.rect_top.x = self.x
-    self.rect_top.y = self.top
-  # def move(self):
-  #   self.x -= self.vel
-  def draw(self, screen):
-    screen.blit(self.top_pipe, (self.x, self.top))
-    screen.blit(self.bot_pipe, (self.x, self.bottom))
-  def offscreen(self):
-    return self.x < -self.width
+    self.rect.x = self.x
+    self.rect.y = self.top
+  #def offscreen(self):
+    #return self.x < -self.width
   def collided(self, player):
     return self.rect.colliderect(player.rect)
-  def pipeGame(self):
-    first_pipe = createPipe()
-    second_pipe = createPipe()
-    mytempheight = 100
-    down_pipes = [
-      {'x': width+300-mytempheight, 'y':first_pipe[1]['y']},
-      {'x': width+200-mytempheight+(width/2), 'y':second_pipe[1]['y']}
-    ]
-    up_pipes = [
-      {'x': width+300-mytempheight, 'y':first_pipe[0]['y']},
-      {'x': width+200-mytempheight+(width/2), 'y':second_pipe[0]['y']}
-    ]
-    pipeVelX = -4
-    for upperPipe, lowerPipe in zip(up_pipes, down_pipes):
-      upperPipe['x'] += pipeVelX
-      lowerPipe['x'] += pipeVelX
-    if 0 < up_pipes[0]['x'] < 5:
-      newpipe = createPipe()
-      up_pipes.append(newpipe[0])
-      down_pipes.append(newpipe[1])
-    if up_pipes[0]['x'] < -game_images['pipe'][0].get_width():
-      up_pipes.pop(0)
-      down_pipes.pop(0)
+
+class BotPipe(pygame.sprite.Sprite):
+  def __init__(self, x, height):
+    pygame.sprite.Sprite.__init__(self)
+    self.x = x
+    #self.y = random.randint(0, height - gap_size)
+    #self.width = pipe_width
+    self.image = pygame.image.load(os.path.join('images', 'pipe-green.png')).convert_alpha()
+    self.image = pygame.transform.scale(self.image, (78, 420))
+    self.gap = 120
+    self.bottom = height + self.gap
+    self.rect = self.image.get_rect()
+    self.rect.x = self.x
+    self.rect.y = self.bottom
+  def update(self, dt):
+    self.x -= dt / 10
+    self.rect.x = self.x
+    self.rect.y = self.bottom
+  #def offscreen(self):
+    #return self.x < -self.width
+  def collided(self, player):
+    return self.rect.colliderect(player.rect)
+
+class PipeSet(pygame.sprite.Sprite):
+  def __init__(self, x):
+    pygame.sprite.Sprite.__init__(self)
+    self.height = random.randrange(90, 420)
+    self.top_pipe = TopPipe(x, self.height)
+    self.bottom_pipe = BotPipe(x, self.height)
+    self.pipe_list = pygame.sprite.Group(self.top_pipe, self.bottom_pipe)
+  def update(self, dt):
+    self.top_pipe.update(dt)
+    self.bottom_pipe.update(dt)
+
