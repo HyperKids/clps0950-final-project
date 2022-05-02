@@ -24,7 +24,7 @@ class Game():
     for pipe in self.pipes:
       pipe.update(dt)
     self.distance += dt
-    self.player.update(dt)
+    self.player.update(dt, self)
   def start(self):
     # only run function once
     if ~self.started:

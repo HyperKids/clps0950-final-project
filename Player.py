@@ -28,8 +28,9 @@ class Player(pygame.sprite.Sprite):
     self.g = 10 / 15 * 60
     # time since last flap in ms, to calculate angle
     self.time_since_flap = 0 # in ms
-  def update(self, dt):
+  def update(self, dt, game):
     self.frame_count += 1
+    self.detectCollide(game)
     # if player is in free fall
     if self.vy >= max_falling_speed:
       # set wings to neutral glide position
@@ -73,10 +74,10 @@ class Player(pygame.sprite.Sprite):
       self.vy = -12 # should this equal max falling speed, but negative?
       self.time_since_flap = 0
 
-  def detectCollide(self):
+  def detectCollide(self, game):
     # detect player collision with pipes
-    for pipe in self.pipes:
-      if self.rect.colliderect(pipe.rect):
+    for pipe in game.pipes:
+      if pygame.sprite.collide_rect(self, pipe.top_pipe) or pygame.sprite.collide_rect(self, pipe.bottom_pipe):
         self.die()
 
   def die(self):
