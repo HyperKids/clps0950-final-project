@@ -32,56 +32,58 @@ def createPipe():
 class TopPipe(pygame.sprite.Sprite):
   def __init__(self, x, height):
     pygame.sprite.Sprite.__init__(self)
-    self.x = x
     #self.y = random.randint(0, height - gap_size)
     #self.width = pipe_width
     self.image = pygame.image.load(os.path.join('images', 'pipe-green.png')).convert_alpha()
     self.image = pygame.transform.flip(self.image, False, True)
     self.image = pygame.transform.scale(self.image, (78, 420))
     self.gap = 120
-    self.top = height - self.image.get_height()
     self.rect = self.image.get_rect()
-    self.rect.x = self.x
-    self.rect.y = self.top
+    self.rect.x = x
+    self.rect.y = height - self.image.get_height()
   def update(self, dt):
-    self.x -= dt / 10
-    self.rect.x = self.x
-    self.rect.y = self.top
-  #def offscreen(self):
-    #return self.x < -self.width
-  def collided(self, player):
-    return self.rect.colliderect(player.rect)
+    self.rect.x -= dt / 10
+  # check if pipe is offscreen
+  def offscreen(self):
+    return self.rect.x < -self.image.get_width()
+  def moveto(self, x, height):
+    self.rect.x = x
+    self.rect.y = height - self.image.get_height()
 
 class BotPipe(pygame.sprite.Sprite):
   def __init__(self, x, height):
     pygame.sprite.Sprite.__init__(self)
-    self.x = x
     #self.y = random.randint(0, height - gap_size)
     #self.width = pipe_width
     self.image = pygame.image.load(os.path.join('images', 'pipe-green.png')).convert_alpha()
     self.image = pygame.transform.scale(self.image, (78, 420))
     self.gap = 120
-    self.bottom = height + self.gap
     self.rect = self.image.get_rect()
-    self.rect.x = self.x
-    self.rect.y = self.bottom
+    self.rect.x = x
+    self.rect.y = height + self.gap
   def update(self, dt):
-    self.x -= dt / 10
-    self.rect.x = self.x
-    self.rect.y = self.bottom
-  #def offscreen(self):
-    #return self.x < -self.width
-  def collided(self, player):
-    return self.rect.colliderect(player.rect)
+    self.rect.x -= dt / 10
+  # check if pipe is off screen
+  def offscreen(self):
+    return self.rect.x < -self.image.get_width()
+  def moveto(self, x, height):
+    self.rect.x = x
+    self.rect.y = height + self.gap
+
 
 class PipeSet(pygame.sprite.Sprite):
   def __init__(self, x):
     pygame.sprite.Sprite.__init__(self)
-    self.height = random.randrange(90, 420)
+    self.height = self.random_height()
     self.top_pipe = TopPipe(x, self.height)
     self.bottom_pipe = BotPipe(x, self.height)
     self.pipe_list = pygame.sprite.Group(self.top_pipe, self.bottom_pipe)
   def update(self, dt):
     self.top_pipe.update(dt)
     self.bottom_pipe.update(dt)
-
+    if self.top_pipe.offscreen() or self.bottom_pipe.offscreen():
+      self.height = self.random_height()
+      self.top_pipe.moveto(width * 1.5, self.height)
+      self.bottom_pipe.moveto(width * 1.5, self.height)
+  def random_height(self):
+    return random.randrange(90, 420)
