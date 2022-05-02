@@ -8,6 +8,7 @@ from pygame.locals import *
 from Game import *
 
 from global_vars import *
+from Pipe import *
 
 ## Initialization
 # Screen pulled from global_vars.py
@@ -47,7 +48,34 @@ def draw(screen):
   """
   screen.blit(bg, (0, 0)) # Fill the screen with background.
   screen.blit(game.base, (-((game.distance / 10) % 36), height-84))
+  first_pipe = createPipe()
+  second_pipe = createPipe()
+  mytempheight = 100
+  down_pipes = [
+    {'x': width+300-mytempheight, 'y':first_pipe[1]['y']},
+    {'x': width+200-mytempheight+(width/2), 'y':second_pipe[1]['y']}
+  ]
+  up_pipes = [
+    {'x': width+300-mytempheight, 'y':first_pipe[0]['y']},
+    {'x': width+200-mytempheight+(width/2), 'y':second_pipe[0]['y']}
+  ]
+  pipeVelX = -4
+  for upperPipe, lowerPipe in zip(up_pipes, down_pipes):
+    upperPipe['x'] += pipeVelX
+    lowerPipe['x'] += pipeVelX
+  if 0 < up_pipes[0]['x'] < 5:
+    newpipe = createPipe()
+    up_pipes.append(newpipe[0])
+    down_pipes.append(newpipe[1])
+  if up_pipes[0]['x'] < -game_images['pipe'][0].get_width():
+    up_pipes.pop(0)
+    down_pipes.pop(0)
+  for upperPipe, lowerPipe in zip(up_pipes, down_pipes):
+    screen.blit(game_images['pipe'][0], (upperPipe['x'], upperPipe['y']))
+    screen.blit(game_images['pipe'][1], (lowerPipe['x'], lowerPipe['y']))
+
   game.player_list.draw(screen)
+
   
   # Redraw screen here.
   
