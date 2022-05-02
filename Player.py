@@ -84,4 +84,5 @@ class Player(pygame.sprite.Sprite):
     # only permit death once
     if self.alive:
       self.alive = False
+      self.vy = 0
       self.image = pygame.transform.rotate(self.images[self.image_index], -90)
