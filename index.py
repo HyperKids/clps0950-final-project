@@ -61,6 +61,8 @@ def draw(screen):
   #  screen.blit(game_images['pipe'][1], (lowerPipe['x'], lowerPipe['y']))
 
   game.player_list.draw(screen)
+  
+  game.score.draw()
 
   # render ground last so it covers other items visually
   screen.blit(game.base, (-((game.distance / 10) % 36), height-84))

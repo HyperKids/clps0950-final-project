@@ -1,7 +1,8 @@
 import pygame
 import os
 # global variables
-width, height = 432, 768
+global_scale = 1.5 # TODO: make program scalable based on this variable
+width, height = 288 * global_scale, 512 * global_scale
 max_falling_speed = 12
 game_speed = 12
 # Set up the window.
