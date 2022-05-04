@@ -44,6 +44,9 @@ def update(dt):
         else:
           game.player.flap()
         pass
+      if event.key == pygame.K_r:
+        game.reset()
+        pass
     if event.type == pygame.MOUSEBUTTONDOWN:
       if game.start_screen:
         game.start_screen = False

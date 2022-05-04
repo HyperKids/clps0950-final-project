@@ -92,3 +92,8 @@ class Player(pygame.sprite.Sprite):
       self.alive = False
       self.vy = 0
       self.image = pygame.transform.rotate(self.images[2], -90)
+
+  def reset(self):
+    self.g = 0
+    self.vy = 0
+    self.started = False

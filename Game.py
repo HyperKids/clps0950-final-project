@@ -40,5 +40,6 @@ class Game():
     self.pipes = []
     self.distance = 0
     self.started = False
+    self.player.reset()
     self.score.reset()
 
