@@ -14,18 +14,18 @@ class Player(pygame.sprite.Sprite):
       img = pygame.transform.scale(img, (51, 36))
       img = pygame.transform.rotate(img, 0)
       self.images.append(img)
-      self.image = self.images[0]
-      self.rect = self.image.get_rect()
-      self.image_index = 0
-      self.frame_count = 0
-      self.alive = True
-
+    self.image = self.images[0]
+    self.rect = self.image.get_rect()
+    self.image_index = 0
+    self.frame_count = 0
+    self.alive = True
+    self.started = False
     # velocity y
     self.vy = 0
     # acceleration y
     self.ay = 0
     # gravity
-    self.g = 10 / 15 * 60
+    self.g = 0
     # time since last flap in ms, to calculate angle
     self.time_since_flap = 0 # in ms
   def update(self, dt, game):
@@ -57,7 +57,9 @@ class Player(pygame.sprite.Sprite):
         self.die()
 
     # if not dead
-    if self.alive:
+    if not self.started:
+      self.image = self.images[self.image_index]
+    elif self.alive:
       # update bird angle based on time since flap
       if self.time_since_flap < 625:
         # set angle fixed to 20 degrees up
@@ -68,6 +70,10 @@ class Player(pygame.sprite.Sprite):
       else:
         # set angle fixed to 90 degrees down
         self.image = pygame.transform.rotate(self.images[self.image_index], -90)
+
+  def start(self):
+    self.started = True
+    self.g = 10 / 15 * 60
 
   def flap(self):
     if self.alive:
@@ -85,4 +91,4 @@ class Player(pygame.sprite.Sprite):
     if self.alive:
       self.alive = False
       self.vy = 0
-      self.image = pygame.transform.rotate(self.images[self.image_index], -90)
+      self.image = pygame.transform.rotate(self.images[2], -90)

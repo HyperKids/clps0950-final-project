@@ -36,6 +36,8 @@ def update(dt):
         pygame.quit()
         sys.exit()
       if event.key == pygame.K_UP:
+        if game.started == False:
+          game.start()
         game.player.flap()
         pass
 

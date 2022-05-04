@@ -19,7 +19,6 @@ class Game():
     self.base = pygame.transform.scale(self.base, (504, 168))
     self.distance = 0
     self.started = False
-    self.start()
   def update(self, dt):
     if self.player.alive == True:
       for pipe in self.pipes:
@@ -28,7 +27,8 @@ class Game():
     self.player.update(dt, self)
   def start(self):
     # only run function once
-    if ~self.started:
-      self.distance = 0
+    if not self.started:
+      self.started = True
       self.pipes.append(PipeSet(width * 2))
       self.pipes.append(PipeSet(width * 2.75))
+      self.player.start()
