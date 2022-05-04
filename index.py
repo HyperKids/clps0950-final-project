@@ -75,7 +75,7 @@ def draw(screen):
 
   # Draw menu if there should be a menu.
   if game.start_screen:
-    screen.blit(bg, (0, 0)) # Fill the screen with menu.
+    screen.blit(homescreen, (0, 0)) # Fill the screen with menu.
   
   # Flip the display so that the things we drew actually show up.
   pygame.display.flip()
