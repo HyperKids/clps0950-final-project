@@ -32,3 +32,12 @@ class Game():
       self.pipes.append(PipeSet(width * 2))
       self.pipes.append(PipeSet(width * 2.75))
       self.player.start()
+  def reset(self):
+    self.player.alive = True
+    self.player.rect.x = (width / 2 - self.player.rect.width / 2) * 3 / 5
+    self.player.rect.y = height / 2 - self.player.rect.height / 2
+    self.pipes = []
+    self.distance = 0
+    self.started = False
+    self.score.reset()
+
