@@ -9,6 +9,6 @@ game_speed = 12
 screen = pygame.display.set_mode((width, height))
 bg = pygame.image.load(os.path.join('images', 'background-day.png')).convert()
 bg = pygame.transform.scale(bg, (width, height))
-
-#top_pipe = pygame.image.load(os.path.join('images', 'pipe-green.png')).convert()
-#top_pipe = pygame.transform.scale(top_pipe, (52, 280))
+homescreen = pygame.image.load(os.path.join('images', 'homescreen2.png')).convert()
+homescreen.set_colorkey((0, 0, 255))
+homescreen = pygame.transform.scale(homescreen, (width, height))
