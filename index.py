@@ -35,11 +35,23 @@ def update(dt):
       if event.key == pygame.K_ESCAPE:
         pygame.quit()
         sys.exit()
-      if event.key == pygame.K_UP:
-        if game.started == False:
+      if event.key == pygame.K_SPACE:
+        if game.start_screen:
+          game.start_screen = False
+        elif game.started == False:
           game.start()
-        game.player.flap()
+          game.player.flap()
+        else:
+          game.player.flap()
         pass
+    if event.type == pygame.MOUSEBUTTONDOWN:
+      if game.start_screen:
+        game.start_screen = False
+      elif game.started == False:
+        game.start()
+        game.player.flap()
+      else:
+        game.player.flap()
 
   # Update level
   game.update(dt)
@@ -51,16 +63,6 @@ def draw(screen):
   screen.blit(bg, (0, 0)) # Fill the screen with background.
 
   screen.blit(game.base, (-((game.distance / 10) % 36), height-84))
-  #for pipe in game.pipes:
-    #pipe.draw(screen)
-
-
-  #screen.blit(top_pipe, (width/2, height/2 + 20))
-
-  #createPipe()
-  #for upperPipe, lowerPipe in (up_pipes, down_pipes):
-  #  screen.blit(game_images['pipe'][0], (upperPipe['x'], upperPipe['y']))
-  #  screen.blit(game_images['pipe'][1], (lowerPipe['x'], lowerPipe['y']))
 
   for pipe in game.pipes:
     pipe.pipe_list.draw(screen)
@@ -71,11 +73,15 @@ def draw(screen):
   # render ground last so it covers other items visually
   screen.blit(game.base, (-((game.distance / 10) % 36), height-84))
 
-  # Redraw screen here.
+  # Draw menu if there should be a menu.
+  if game.start_screen:
+    screen.blit(bg, (0, 0)) # Fill the screen with menu.
   
   # Flip the display so that the things we drew actually show up.
   pygame.display.flip()
- 
+
+
+
 def runPyGame():
   pygame.init()
 

@@ -19,6 +19,7 @@ class Game():
     self.base = pygame.transform.scale(self.base, (504, 168))
     self.distance = 0
     self.started = False
+    self.start_screen = True
   def update(self, dt):
     if self.player.alive == True:
       for pipe in self.pipes:
