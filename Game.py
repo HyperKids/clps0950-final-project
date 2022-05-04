@@ -21,9 +21,10 @@ class Game():
     self.started = False
     self.start()
   def update(self, dt):
-    for pipe in self.pipes:
-      pipe.update(dt)
-    self.distance += dt
+    if self.player.alive == True:
+      for pipe in self.pipes:
+        pipe.update(dt)
+      self.distance += dt
     self.player.update(dt, self)
   def start(self):
     # only run function once
