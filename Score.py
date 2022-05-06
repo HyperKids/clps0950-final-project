@@ -18,3 +18,10 @@ class Score():
       img = pygame.transform.scale(img, (24 * global_scale, 36 * global_scale))
       # draw score in top center of screen
       screen.blit(img, (width / 2 - (len(digits) / 2 - i) * 24 * global_scale, 36 * global_scale))
+  def draw_final(self):
+    digits = [int(x) for x in str(self.score)]
+    for i in range(len(digits)):
+      digit = digits[i]
+      img = pygame.image.load(os.path.join('images', str(digit)+'.png')).convert_alpha()
+      # draw score on right center of screen
+      screen.blit(img, (width - (len(digits) - i) * 24 * global_scale, height / 2 - 36 * global_scale))
