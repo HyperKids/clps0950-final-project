@@ -82,12 +82,21 @@ class PipeSet(pygame.sprite.Sprite):
     self.top_pipe = TopPipe(x, self.height)
     self.bottom_pipe = BotPipe(x, self.height)
     self.pipe_list = pygame.sprite.Group(self.top_pipe, self.bottom_pipe)
-  def update(self, dt):
+    self.player_passed = False
+  def update(self, dt, game):
     self.top_pipe.update(dt)
     self.bottom_pipe.update(dt)
+    # if pipe is off screen to the left, move it to the right
     if self.top_pipe.offscreen() or self.bottom_pipe.offscreen():
-      self.height = self.random_height()
-      self.top_pipe.moveto(width * 1.5 - (self.top_pipe.image.get_width()), self.height)
-      self.bottom_pipe.moveto(width * 1.5 - (self.bottom_pipe.image.get_width()), self.height)
+      self.resetPipe()
+    # if player passes pipe, give them a point
+    if self.top_pipe.rect.x < game.player.rect.x and not self.player_passed or self.bottom_pipe.rect.x < game.player.rect.x and not self.player_passed:
+      self.player_passed = True
+      game.score.add()
   def random_height(self):
     return random.randrange(90, 400)
+  def resetPipe(self):
+    self.height = self.random_height()
+    self.top_pipe.moveto(width * 1.5 - (self.top_pipe.image.get_width()), self.height)
+    self.bottom_pipe.moveto(width * 1.5 - (self.bottom_pipe.image.get_width()), self.height)
+    self.player_passed = False

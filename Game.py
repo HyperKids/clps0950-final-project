@@ -24,7 +24,7 @@ class Game():
   def update(self, dt):
     if self.player.alive == True:
       for pipe in self.pipes:
-        pipe.update(dt)
+        pipe.update(dt, self)
       self.distance += dt
     self.player.update(dt, self)
     if not self.player.alive:
