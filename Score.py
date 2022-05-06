@@ -24,4 +24,4 @@ class Score():
       digit = digits[i]
       img = pygame.image.load(os.path.join('images', str(digit)+'.png')).convert_alpha()
       # draw score on right center of screen
-      screen.blit(img, (width - (len(digits) - i) * 24 * global_scale, height / 2 - 36 * global_scale))
+      screen.blit(img, (width - 73 - (len(digits) - i) * 24 * global_scale * 2 / 3, height / 2 + 5 - 36 * global_scale * 2 / 3))

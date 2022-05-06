@@ -73,7 +73,7 @@ def draw(screen):
     pipe.pipe_list.draw(screen)
   game.player_list.draw(screen)
   
-  if game.started:
+  if game.started and game.player.alive:
     game.score.draw()
 
   # render ground last so it covers other items visually
@@ -85,6 +85,7 @@ def draw(screen):
 
   if game.deadtime >= 1000:
     screen.blit(endscreen, (0, 0))
+    game.score.draw_final()
 
   # Flip the display so that the things we drew actually show up.
   pygame.display.flip()
