@@ -20,12 +20,15 @@ class Game():
     self.distance = 0
     self.started = False
     self.start_screen = True
+    self.deadtime = 0
   def update(self, dt):
     if self.player.alive == True:
       for pipe in self.pipes:
         pipe.update(dt)
       self.distance += dt
     self.player.update(dt, self)
+    if not self.player.alive:
+      self.deadtime += dt
   def start(self):
     # only run function once
     if not self.started:

@@ -42,9 +42,9 @@ class TopPipe(pygame.sprite.Sprite):
     self.rect.x = x
     self.rect.y = height - self.image.get_height()
   def update(self, dt):
-    self.rect.x -= dt / 10
+    self.rect.x -= dt / pipe_mvmt
     if self.rect.x < 0:
-      self.rect.x -= dt/10
+      self.rect.x -= dt/pipe_mvmt
   # check if pipe is offscreen
   def offscreen(self):
     return self.rect.x < -self.image.get_width()
@@ -64,9 +64,9 @@ class BotPipe(pygame.sprite.Sprite):
     self.rect.x = x
     self.rect.y = height + self.gap
   def update(self, dt):
-    self.rect.x -= dt / 10
+    self.rect.x -= dt / pipe_mvmt
     if self.rect.x < 0:
-      self.rect.x -= dt/10
+      self.rect.x -= dt/pipe_mvmt
   # check if pipe is off screen
   def offscreen(self):
     return self.rect.x < -self.image.get_width()
