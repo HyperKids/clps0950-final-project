@@ -45,4 +45,5 @@ class Game():
     self.started = False
     self.player.reset()
     self.score.reset()
+    self.deadtime = 0
 

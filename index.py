@@ -38,6 +38,8 @@ def update(dt):
       if event.key == pygame.K_SPACE:
         if game.start_screen:
           game.start_screen = False
+        if game.deadtime > 1000:
+          game.reset()
         elif game.started == False:
           game.start()
           game.player.flap()
@@ -50,6 +52,8 @@ def update(dt):
     if event.type == pygame.MOUSEBUTTONDOWN:
       if game.start_screen:
         game.start_screen = False
+      if game.deadtime > 1000:
+          game.reset()
       elif game.started == False:
         game.start()
         game.player.flap()
@@ -65,8 +69,6 @@ def draw(screen):
   """
   screen.blit(bg, (0, 0)) # Fill the screen with background.
 
-  screen.blit(game.base, (-((game.distance / 10) % 36), height-84))
-
   for pipe in game.pipes:
     pipe.pipe_list.draw(screen)
   game.player_list.draw(screen)
@@ -75,7 +77,7 @@ def draw(screen):
     game.score.draw()
 
   # render ground last so it covers other items visually
-  screen.blit(game.base, (-((game.distance / 10) % 36), height-84))
+  screen.blit(game.base, (-((game.distance / pipe_mvmt * 1.1) % 36), height-84))
 
   # Draw menu if there should be a menu.
   if game.start_screen:
